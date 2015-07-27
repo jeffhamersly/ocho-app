@@ -1,0 +1,169 @@
+".container": {
+	backgroundColor:"#f4f6f5"
+}
+
+"Label": {
+	color: "#000",
+	font: {
+		fontSize: 100
+		
+	}
+}
+
+
+
+".nav": {
+	backgroundColor: '#7d8ea7',
+	height: '13%',
+	width: '100%',
+	top: 0
+	}
+
+".navTitle": {
+	color: "#fff",
+	font: {
+	fontFamily: 'Lucida-neueu',
+	fontSize: 18
+	},
+	top:'50%'
+}
+".hamburger": {
+	font: {
+	fontFamily: 'icomoon',
+	fontSize: 30
+	},
+	color: '#ffffff',
+	left:20,
+	top:'45%'
+}
+".fries": {
+	font: {
+	fontFamily: 'icomoon',
+	fontSize: 20
+	},
+	color: '#ffffff',
+	right:20,
+	top:'50%'
+	
+}
+
+"#footer":{
+	top:'13%',
+	backgroundColor: '#fcfdfc',	
+	width: '100%',
+	height: '51',
+
+}
+	'#sep':{
+		bottom: '0',
+		width: '100%',
+	}
+"#footerTitle": {
+	color: '#949fab',
+	font: {
+	fontFamily: 'Lucida-neueu',
+	fontSize: 12
+	},
+	top:'35%',
+	left:'16%',
+}
+"#refresh": {
+	font: {
+	fontFamily: 'icomoon',
+	fontSize: 20
+	},
+	color: '#949fab',
+	left:'8%',
+	top:'30%'
+	
+}
+"#print":{
+	font: {
+	fontFamily: 'icomoon',
+	fontSize: 20
+	},
+	color: '#949fab',
+	right:'17%',
+	top:'30%'
+}
+
+"#share":{
+	font: {
+	fontFamily: 'icomoon',
+	fontSize: 20
+	},
+	color: '#949fab',
+	right:'7%',
+	top:'30%'
+}
+
+
+
+"#table":{
+	backgroundColor: '#f4f6f5',
+	top: '22%',
+	separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+    separatorStyle:'none',
+    selectionStyle:'none',
+    separatorColor : 'transparent',
+}
+".lottoRow":	{
+	height: '60',
+	
+	
+}
+".countRow":	{
+	font: {
+	fontSize: 16
+	},
+	left: '3%',
+	height: 60,
+	backgroundPaddingLeft: 10,
+	color: '#c4c4c4'
+}
+
+".lottoBall": {
+
+	font: {
+	fontSize: 14
+	},
+	color: '#436391',
+	backgroundImage: 'lotto-ball.png',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	width: 35,
+	height: 35,
+	left: '1%',
+	top:-200
+}
+".firstBall": {
+	left: '3%'
+	
+}
+
+".lottoBallBlue": {
+	font: {
+		fontSize: 14
+	},
+	color: '#ffffff',
+	backgroundImage: 'lotto-ball-blue.png',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	top:40,
+	width: 35,
+	height: 35,
+	left: '1%',
+	top:-200
+}
+".loadingView":{
+	backgroundColor: '#ffffff',
+	
+	top: '0',
+	left:'0',
+	
+}
+".loadingIcon": {
+	backgroundImage: 'loading.gif',
+	width: 200,
+	height:200,
+	top: '50%'
+}
+
