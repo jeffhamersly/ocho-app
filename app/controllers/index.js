@@ -2,7 +2,7 @@ $.window.open();
 //create empty table
 
 var tableData = [];
-var picks = {}
+var picks = [];
 var powerBallMax = 15;
 var ballMax = 45;
 
@@ -18,6 +18,7 @@ function randomInt(max){
 function getPicks(balls, rows, power){
 
 	tableData = [];
+	picks = [];
 	
 	//return 5 picks
 	for (var i=1; i<=rows; i++){
