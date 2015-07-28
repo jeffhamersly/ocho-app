@@ -35,6 +35,7 @@
 			<Label id="filterNavTitle" class="navTitle">Tweak Lottery Filter</Label>
 			<Label id="cancelFries" class="fries"></Label>
 		</View>
+		<TableView id="filterTable" />
 		
 	</Window>
 </Alloy>

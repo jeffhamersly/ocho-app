@@ -1,6 +1,7 @@
 $.window.open();
 //create empty table
 
+
 var tableData = [];
 var picks = [];
 var powerBallMax = 15;
@@ -47,13 +48,103 @@ function getPicks(balls, rows, power){
 		//show 7 balls
 		for (var j=1; j<=balls; j++){
 			
-			var lottoPick = randomInt(powerBallMax);
+			
 		
 			
 			//Check to see if it is the last ball
-			if(j==balls){
-			
-				//generate number for powerball		
+			if(j!=balls){
+				var lottoPick = randomInt(ballMax);
+				for (var s=0; s<=j; s++){
+					
+					//check to see if any of the balls in the index of picks, if not, add the entry
+					picNumber = picks[s];
+										
+					if(picNumber == lottoPick){						
+						var lottoPick = randomInt(powerBallMax);
+						s=0		
+						Ti.API.info("1")			
+						if(picNumber == lottoPick){	
+							var lottoPick = randomInt(powerBallMax);
+							s=0
+							Ti.API.info("2")	
+							if(picNumber == lottoPick){	
+								var lottoPick = randomInt(powerBallMax);
+								s=0
+								Ti.API.info("3")	
+								if(picNumber == lottoPick){	
+									var lottoPick = randomInt(powerBallMax);
+									s=0
+									Ti.API.info("4")	
+									if(picNumber == lottoPick){	
+										var lottoPick = randomInt(powerBallMax);
+										s=0
+										Ti.API.info("5")	
+										if(picNumber == lottoPick){	
+											var lottoPick = randomInt(powerBallMax);
+											s=0
+											Ti.API.info("6")
+											if(picNumber == lottoPick){	
+												var lottoPick = randomInt(powerBallMax);
+												s=0
+												Ti.API.info("7")
+												if(picNumber == lottoPick){	
+													var lottoPick = randomInt(powerBallMax);
+													s=0
+													Ti.API.info("8")
+													if(picNumber == lottoPick){	
+														var lottoPick = randomInt(powerBallMax);
+														s=0
+														Ti.API.info("9")
+														if(picNumber == lottoPick){	
+															var lottoPick = randomInt(powerBallMax);
+															s=0
+															Ti.API.info("10")
+															if(picNumber == lottoPick){	
+																var lottoPick = randomInt(powerBallMax);
+																s=0
+																Ti.API.info("11")
+																if(picNumber == lottoPick){	
+																	var lottoPick = randomInt(powerBallMax);
+																	s=0
+																	Ti.API.info("12")
+																	Ti.API.info("wow... a duplicate. I guess this was a piss poor solution afterall. Though at 11:49pm it seemed aight.")												
+																}									
+															}
+														}	
+													}									
+												}
+											}	
+										}									
+									}
+								}	
+							}								
+						}
+						
+					}else{ 
+						picks[s] = lottoPick;
+						var labelBall = Ti.UI.createLabel({
+							text: lottoPick,			
+			 			});	
+						//assign normal ball class
+						$.addClass(labelBall, "lottoBall");
+						
+					}
+	
+				}
+				//create text label for powerball		
+				
+				
+				
+				
+				//assign unique class to first ball for margin
+				if(j==1){
+					$.addClass(labelBall, "firstBall");
+				}
+				
+			}else{
+				
+				//generate number for powerball	
+				var lottoPick = randomInt(powerBallMax);	
 				var labelBall = Ti.UI.createLabel({
 			    	text: lottoPick,			
 			 	 });		
@@ -62,34 +153,7 @@ function getPicks(balls, rows, power){
 				if(power === true)  {	
 					$.addClass(labelBall, "lottoBallBlue");
 				}
-			}else{
 				
-				for(var l=1; l<j; l++){
-		
-					if (picks[l] ==  lottoPick)	{
-						//start over
-						lottoPick = randomInt(powerBallMax);
-						l=1
-						
-					}else{
-						// set the number, it's unique!'
-						var labelBall = Ti.UI.createLabel({
-							text: lottoPick,			
-			 			});	
-						//add to array for checking next time around
-						picks[j] = lottoPick;
-					}				
-				}
-				//create text label for powerball		
-				
-				
-				//assign normal ball class
-				$.addClass(labelBall, "lottoBall");
-				
-				//assign unique class to first ball for margin
-				if(j==1){
-					$.addClass(labelBall, "firstBall");
-				}
 	
 			}
 		
@@ -97,8 +161,11 @@ function getPicks(balls, rows, power){
 			row.add(labelBall);
 			
 			//animate balls dropping in randomly
-			var dur = randomInt(400)
-			labelBall.animate({top:10, duration: dur})
+			var dur = randomInt(300)
+	
+ 	labelBall.animate({top:10, duration: dur})
+
+			
 		}
 		
 	
@@ -162,6 +229,44 @@ function upgradeAd(){
 			
 		
 }
+
+function filterSettings(){
+
+	
+		
+	var countries = lotCountries.length;
+	var country = 0;
+	
+	
+	
+	
+	for (var c=0; c<=countries; c++){
+		var row = Ti.UI.createTableViewRow({
+			layout: 'horizontal',
+			backgroundColor: '#ffffff',
+		});
+		
+		if (lotCountries[c] != country){
+			country = lotCountries[c];
+			var filterSetting = Ti.UI.createLabel({
+				text: country,			
+ 			});	
+			
+		}
+		
+		row.add(filterSetting);
+			
+		//animate balls dropping in randomly
+		
+		tableData.push(row);
+		
+		//WHAT AM I EVEN DOING?! I need to get all the state data into this table
+	}
+	
+	$.filter.setData(tableData);
+
+}
+
 
 
 $.footer.addEventListener('click', function(e) {
