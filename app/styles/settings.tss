@@ -1,0 +1,115 @@
+".container": {
+	backgroundColor:"#f4f6f5",
+	
+}
+".section" : {
+	color: '#777',
+	left: '5%',
+	top: '2%',	
+	font: { fontSize:15 },
+}
+
+".smallSection" : {
+	color: '#777',
+	left: '5%',
+	top: '2%',	
+	font: { fontSize:12 },
+}
+".sectionDesc":{ 
+	left: '5%',
+	color: '#999',
+	font: { fontSize:11 },
+}
+
+".sliderLabel":{
+	color: '#999999',
+	left: '5%',
+	width: '30%',
+	top: '30%',	
+	font: { fontSize:12 },
+	
+}
+
+".subSection":{
+	left: '7%',
+}
+
+".firstSection":{
+	
+	top: '5%',
+	
+}
+
+
+"#settingScroll": {
+	
+	top: '20%',
+	backgroundColor: '#ffffff',
+	width: '96%'
+}
+
+
+
+".slider":{
+	top: '20%',
+	left: '35%',
+	width: '50%',
+}
+Switch : {
+	top: '30%',
+	left: '35%',
+
+}
+
+".disabled" :{
+	
+	touchEnabled:false,
+	opacity: '.2',
+	
+}
+
+
+
+
+
+".sectionRow":{
+	height: 55,
+	
+}
+
+'#lock':{
+	
+		font: {
+		fontFamily: 'icomoon',
+		fontSize: 18,
+		},
+		color: '#fff',
+		left: '15',
+	
+}
+
+'.purchase' : {
+		bottom: '50%',
+		
+
+		backgroundColor: '#5f9c73',
+		color: '#ffffff',
+		borderRadius: 10,
+		width: '75%'
+	
+}
+
+"#ad_overlay":{
+	
+	top: '-75',
+	height: 75,
+	
+}
+
+".disabledGrey" : {
+	touchEnabled:false,
+	backgroundColor: '#5d6a63',
+	borderRadius: 10,
+	
+}
+

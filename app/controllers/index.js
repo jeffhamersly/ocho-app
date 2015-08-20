@@ -1,186 +1,223 @@
-$.window.open();
+
 //create empty table
-
-
 var tableData = [];
-var picks = [];
-var powerBallMax = 15;
-var ballMax = 45;
 
-// generate random number
-function randomInt(max){
-  return Math.floor(Math.random() * max) + 1;
+//import billing functions
+var billing = require('Billing');
+
+
+
+//function used to place balls randomly on the page
+function randomXToY(minVal,maxVal){ 
+    var randVal = minVal+(Math.random()*(maxVal-minVal)); 
+    return Math.round(randVal); 
+}
+
+function getPicks(balls, max, rows, power, maxPb){
+    
+    // clear table data
+    tableData = [];
+    var url = "https://app.lotteryegg.com?numBalls="+balls+"&numRows="+rows+"&powerBall=" + Alloy.Globals.powerBall + "&maxRange=" + max + "&maxPbRange=" + maxPb;
+
+
+	
+
+var xhr = Ti.Network.createHTTPClient({
+    onload: function(e) {
+		// this function is called when data is returned from the server and available for use
+        // this.responseText holds the raw text return of the message (used for text/JSON)
+        // this.responseXML holds any returned XML (including SOAP)
+        // this.responseData holds any returned binary data
+      
+        json = JSON.parse(this.responseText);
+       
+        Alloy.Globals.balls = [];
+        var length = 0;
+	   
+        	
+        for (var key in json) {
+          if (json.hasOwnProperty(key)) { 
+           length++;
+           
+            //create table row
+            
+                var background = (length%2) ? "#f4f6f5" : "#ffffff";
+                var row = Ti.UI.createTableViewRow({
+                    backgroundColor: background,
+                    width: Ti.UI.FILL
+                });
+        
+                var wrapper = Ti.UI.createView({
+                    layout: 'horizontal',
+                    left: '10%',
+                    width: '90%',
+                   
+                });
+                
+                //assign class 
+               
+                
+                //create counter
+                var rowCount = Ti.UI.createLabel({
+                        text: length
+                });
+                //assign class 
+                $.addClass(rowCount, "countRow");
+                
+                //add to view
+                row.add(rowCount);
+                
+                for (var j=0; j<balls; j++){
+                   
+                    //create ball
+                    var labelBall = Ti.UI.createLabel({
+                            text: json[key].numbers[j], 
+                            top: -100,
+                            zIndex: 1000,
+                           
+                            
+                    });
+                    
+                    //add to global variable
+                    Alloy.Globals.balls.push(labelBall);
+                    
+                    //add the ball class (to make it look like a ball)                
+                   
+                    
+                    //make the balls larger
+                    if (j==0){
+                         $.addClass(labelBall, "firstBall");  
+                    }
+                    
+                    if (balls < 4){
+                        
+                       
+                        $.addClass(labelBall, "lottoBallLarge");   
+                        $.addClass(row, "lottoRowLarge");
+                        
+                    }else if (balls > 7 & balls <=10 ){
+                        
+                         $.addClass(labelBall, "lottoBall");
+                         $.addClass(row, "lottoRowTwo");
+                    }else if (balls > 10 & balls <=15 ){
+                        
+                         $.addClass(labelBall, "lottoBall");
+                         $.addClass(row, "lottoRowTwo");
+                    }else if (balls > 15 ){
+                        $.addClass(labelBall, "lottoBall");
+                        $.addClass(row, "lottoRowSuper");
+                        
+                         
+                    }else{
+                        
+                         $.addClass(labelBall, "lottoBall");
+                         $.addClass(row, "lottoRow");
+                        
+                    }
+                    
+                    
+                    
+                    
+                    //add ball to row
+                    wrapper.add(labelBall);
+          
+                }
+                
+                if (json[key].powerball){
+                    
+                    var labelBall = Ti.UI.createLabel({
+                            text: json[key].powerball,
+                            top: -100,
+                            zIndex: 1000,
+                    });
+                    
+                    //add to global balls variable
+                    Alloy.Globals.balls.push(labelBall);
+                    
+                    $.addClass(labelBall, "lottoBallBlue");
+                    
+                     if (balls < 4){
+                        
+                       
+                        $.addClass(labelBall, "lottoBallBlueLarge");   
+                        
+                        
+                    }else{
+                       
+                         $.addClass(labelBall, "lottoBallBlue");
+                        
+                        
+                    }
+                    wrapper.add(labelBall);
+                    
+                }
+                
+                //add the wrapper to the row
+                row.add(wrapper);
+                
+            //push the row to table    
+            tableData.push(row);
+            
+            
+          }
+          
+        }
+        
+        
+        upgradeAd();
+        
+        
+        $.table.setData(tableData);
+        
+       
+        animateBalls();
+        Alloy.Globals.Animated = false;  
+        
+    },
+    onerror: function(e) {
+		// this function is called when an error occurs, including a timeout
+        Ti.API.info(e.error);
+        alert('Please Try Again');
+    },
+    timeout:5000  /* in milliseconds */ 
+});
+
+xhr.open("GET", url);
+xhr.send();  // request is actually sent with this statement
+
+
+
 }
 
 
 
 
-// returns picks # of balls, # of results, if powerball is to be played
-function getPicks(balls, rows, power){
 
-	tableData = [];
-	picks = [];
-	
-	//return 5 picks
-	for (var i=1; i<=rows; i++){
-		//alternate background colors
-		var background = (i%2) ? "#f4f6f5" : "#ffffff";
-	
-		//create table row
-		var row = Ti.UI.createTableViewRow({
-			layout: 'horizontal',
-			backgroundColor: background,
-		});
-		
-		//assign class 
-		  $.addClass(row, "lottoRow");
-		
-		//create counter
-		var rowCount = Ti.UI.createLabel({
-			    text: i
-		});
-		//assign class 
-		$.addClass(rowCount, "countRow");
-		
-		//add to row
-		row.add(rowCount);
-		
-		//show 7 balls
-		for (var j=1; j<=balls; j++){
-			
-			
-		
-			
-			//Check to see if it is the last ball
-			if(j!=balls){
-				var lottoPick = randomInt(ballMax);
-				for (var s=0; s<=j; s++){
-					
-					//check to see if any of the balls in the index of picks, if not, add the entry
-					picNumber = picks[s];
-										
-					if(picNumber == lottoPick){						
-						var lottoPick = randomInt(powerBallMax);
-						s=0		
-						Ti.API.info("1")			
-						if(picNumber == lottoPick){	
-							var lottoPick = randomInt(powerBallMax);
-							s=0
-							Ti.API.info("2")	
-							if(picNumber == lottoPick){	
-								var lottoPick = randomInt(powerBallMax);
-								s=0
-								Ti.API.info("3")	
-								if(picNumber == lottoPick){	
-									var lottoPick = randomInt(powerBallMax);
-									s=0
-									Ti.API.info("4")	
-									if(picNumber == lottoPick){	
-										var lottoPick = randomInt(powerBallMax);
-										s=0
-										Ti.API.info("5")	
-										if(picNumber == lottoPick){	
-											var lottoPick = randomInt(powerBallMax);
-											s=0
-											Ti.API.info("6")
-											if(picNumber == lottoPick){	
-												var lottoPick = randomInt(powerBallMax);
-												s=0
-												Ti.API.info("7")
-												if(picNumber == lottoPick){	
-													var lottoPick = randomInt(powerBallMax);
-													s=0
-													Ti.API.info("8")
-													if(picNumber == lottoPick){	
-														var lottoPick = randomInt(powerBallMax);
-														s=0
-														Ti.API.info("9")
-														if(picNumber == lottoPick){	
-															var lottoPick = randomInt(powerBallMax);
-															s=0
-															Ti.API.info("10")
-															if(picNumber == lottoPick){	
-																var lottoPick = randomInt(powerBallMax);
-																s=0
-																Ti.API.info("11")
-																if(picNumber == lottoPick){	
-																	var lottoPick = randomInt(powerBallMax);
-																	s=0
-																	Ti.API.info("12")
-																	Ti.API.info("wow... a duplicate. I guess this was a piss poor solution afterall. Though at 11:49pm it seemed aight.")												
-																}									
-															}
-														}	
-													}									
-												}
-											}	
-										}									
-									}
-								}	
-							}								
-						}
-						
-					}else{ 
-						picks[s] = lottoPick;
-						var labelBall = Ti.UI.createLabel({
-							text: lottoPick,			
-			 			});	
-						//assign normal ball class
-						$.addClass(labelBall, "lottoBall");
-						
-					}
-	
-				}
-				//create text label for powerball		
-				
-				
-				
-				
-				//assign unique class to first ball for margin
-				if(j==1){
-					$.addClass(labelBall, "firstBall");
-				}
-				
-			}else{
-				
-				//generate number for powerball	
-				var lottoPick = randomInt(powerBallMax);	
-				var labelBall = Ti.UI.createLabel({
-			    	text: lottoPick,			
-			 	 });		
-			
-				// if it is the last ball, make it blue (if we powerball is in play)
-				if(power === true)  {	
-					$.addClass(labelBall, "lottoBallBlue");
-				}
-				
-	
-			}
-		
-			//add ball to row
-			row.add(labelBall);
-			
-			//animate balls dropping in randomly
-			var dur = randomInt(300)
-	
- 	labelBall.animate({top:10, duration: dur})
 
-			
-		}
-		
-	
-		
-		
-		
-		//push all elements of the row to the table
-		tableData.push(row);
-	}
-	
+function animateBalls() {
 
-		upgradeAd();
-// set the table on our main view with the table data
-$.table.setData(tableData);
+
+    var allBalls = Alloy.Globals.balls.length;
+    
+    // loop through all available balls
+    for (var p=0; p<allBalls; p++){  
+        
+       //make sure each ball is higher than 10 pixels, if not - set it down and then never check that ball again
+       
+       Alloy.Globals.balls[p].animate({
+            top: 10,
+            duration: randomXToY(300,600)
+       });
+       
+       Ti.API.info("animated ball number" + p);
+        
+    }
+    
 }
+
+
+
+
 
 
 //show ad to everyone
@@ -193,18 +230,18 @@ function upgradeAd(){
 	});
 	var lockIcon = Ti.UI.createLabel({
 	color: '#949fab',   
-	 text: '',	
+	 text: '',	
 		top:'10%',
 		font: {
 			fontFamily: 'icomoon',
-			fontSize: 35,
+			fontSize: 40,
 			textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 			},		
 		});
 	var upgradeText = Ti.UI.createLabel({
 	top:'30%',
 	color: '#949fab',    
-	text: 'Copy, Save and Share Picks',	
+	text: 'Questions or Suggestions',	
 		width: '100%',
 		font: {
 			fontFamily: 'Lucida-neueu',
@@ -215,12 +252,33 @@ function upgradeAd(){
 	
 	var upgradeBtn = Ti.UI.createButton({	
 		top:'42%',
-		backgroundColor: '#0086c8',
+		backgroundColor: '#5f9c73',
 		color: '#ffffff',
 		borderRadius: 10,
-		title: 'Upgrade Now - $4.95/mo',
-		width: '85%'
+		title: 'Leave Feedback',
+		width: '75%'
 	})
+	
+	
+	//check to see if upgrade button was clicked
+
+    upgradeBtn.addEventListener('singletap', function(e){
+        
+      // add support box here for user input
+        var emailDialog = Ti.UI.createEmailDialog();
+
+       emailDialog.subject = "Feedback - LotteryEgg";
+       emailDialog.toRecipients = ['jeff.hamersly@gmail.com'];
+       emailDialog.setMessageBody("Howdy!
+       
+I'm always working on improving LotteryEgg, let me know what what you would like changed!
+
+-Jeff");
+       emailDialog.open();
+        
+        
+    })
+	
 		
 	row.add(upgradeText);	
 	row.add(lockIcon);
@@ -230,62 +288,75 @@ function upgradeAd(){
 		
 }
 
-function filterSettings(){
+//Set variable to only animate one time
+Alloy.Globals.Animated = false;
 
-	
-		
-	var countries = lotCountries.length;
-	var country = 0;
-	
-	
-	
-	
-	for (var c=0; c<=countries; c++){
-		var row = Ti.UI.createTableViewRow({
-			layout: 'horizontal',
-			backgroundColor: '#ffffff',
-		});
-		
-		if (lotCountries[c] != country){
-			country = lotCountries[c];
-			var filterSetting = Ti.UI.createLabel({
-				text: country,			
- 			});	
-			
-		}
-		
-		row.add(filterSetting);
-			
-		//animate balls dropping in randomly
-		
-		tableData.push(row);
-		
-		//WHAT AM I EVEN DOING?! I need to get all the state data into this table
-	}
-	
-	$.filter.setData(tableData);
-
-}
+$.table.addEventListener('scroll', function(e) {
+    
+    var roundedY = Math.round(e.contentOffset.y);
+    var allBalls = Alloy.Globals.balls.length;
+    
+   if(roundedY > 50 & Alloy.Globals.Animated == false){
+       
+     for (var p=0; p<allBalls; p++){  
+        
+       //make sure each ball is higher than 10 pixels, if not - set it down and then never check that ball again
+       
+       Alloy.Globals.balls[p].setTop(10);
+       
+       Ti.API.info("animated ball number" + p);
+        
+    }
+       
+        
+        //set variable to show that we have animated
+       Alloy.Globals.Animated = true;
+    }
+});
 
 
 
-$.footer.addEventListener('click', function(e) {
-	//paul how can I individually target views and animate them up and out of the way?
-
-	$.table.setData([])
-   	getPicks(7,5,true);
+$.footer.addEventListener('singletap', function(e) {
 	
-	
-	//show ad to everyone
+    $.table.scrollToTop();
+   getPicks(Alloy.Globals.numWhiteBalls,Alloy.Globals.numWhiteMax,Alloy.Globals.numRows,Alloy.Globals.powerBall,Alloy.Globals.numPowerMax);
 	
 	
 });
 
-$.nav.addEventListener('click', function(e) {
-	$.filter.open();
-})
-$.filterNav.addEventListener('click', function(e) {
-	$.filter.close();
-})
 
-getPicks(7,5,true);
+$.friesTap.addEventListener('singletap', function(e) {
+    
+    //launch a new window
+    
+    Alloy.createController('settings').getView().open();
+    
+});
+
+$.hamburgerTap.addEventListener('singletap', function(e) {
+    
+    //launch a new window
+    
+    Alloy.createController('lotteries').getView().open();
+    
+});
+
+
+
+
+
+
+//trying to pass function
+$.window.getPicks = getPicks;
+Alloy.Globals.numbers = $.window;
+
+getPicks(Alloy.Globals.numWhiteBalls,Alloy.Globals.numWhiteMax,Alloy.Globals.numRows,Alloy.Globals.powerBall,Alloy.Globals.numPowerMax);
+
+
+Alloy.Globals.navTitle = $.navTitle
+
+//open the window
+$.window.open();
+
+
+ 

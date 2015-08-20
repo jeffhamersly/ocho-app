@@ -1,0 +1,85 @@
+".container": {
+	backgroundColor:"#fff"
+}
+".table":{
+	backgroundColor: '#FDFFFE',
+	top: '50%',
+	separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+    separatorStyle:'none',
+    separatorColor : 'transparent',
+}
+".back": {
+	
+
+	color: '#949fab',
+	left: '3%',
+	top: '45%',	
+	width: '100%',
+	font: { fontSize:12 },	
+	
+}
+
+".location":{
+	font: {
+	fontFamily: 'icomoon',
+	fontSize: 70
+	},
+	color: '#999',
+	left: '8%',
+	top: '30%',
+}
+
+
+".section" : {
+	color: '#777',
+	left: '35%',
+	top: '31%',	
+	font: { fontSize:16 },
+}
+
+".sectionDesc":{ 
+	left: '35%',
+	top: '36%',	
+	color: '#999',
+	width: '60%',
+	font: { fontSize:11 },
+}
+
+
+'#save_continue' : {
+
+		backgroundColor: '#0086c8',
+		color: '#ffffff',
+		borderRadius: 10,
+		title: 'Save and Continue',
+		width: '85%'
+	
+}
+
+".countRow":	{ 
+	font: {
+	fontSize: 12
+	},
+	left: 10,
+
+	backgroundPaddingLeft: 10,
+	color: '#c4c4c4'
+}
+
+".countryRow" : {
+	
+	height: 40,
+	
+}
+
+".countryList":{
+	
+	font: {
+	fontSize: 14
+	},
+	top: '30%',
+	color: '#666'
+	
+}
+
+

@@ -1,0 +1,90 @@
+<Alloy>
+	<Window id="settings" class="container">
+		
+		<ScrollView id="settingScroll" layout="vertical">
+    		 
+    		
+    		     
+    		     <Label class="section firstSection disabled" id="premiumResults">Number of results</Label> 
+    		     <Label class="sectionDesc disabled" id="premiumDescResults">The total number of rows for each refresh</Label> 
+              
+                <View class="sectionRow disabled" id="premiumSection">
+                    
+                    <Label id="results_count" class="sliderLabel"></Label>
+                    <Slider id="slider_results" min="1" max="25" onChange="updateRows" class="slider"/>
+                </View>
+                <View height="1" backgroundColor="#cacbca" />
+                <View id="ad_overlay"><Button id="purchase" class="purchase"><Label id="lock"></Label> More Results - $1.99</Button></View>
+        
+         
+             
+    	    <Label class="section">White Balls</Label>
+        	 <Label class="sectionDesc">The total number of balls used per pick</Label> 
+        	  
+        	   <View class="sectionRow">
+             	    <Label id="white_ball_count" class="sliderLabel"></Label>
+            	    <Slider id="slider_white_balls" min="1" max="12" onChange="updateWhiteBalls" class="slider"/>
+               </View>
+               
+            <Label class="section subSection smallSection">Highest white ball</Label>
+             <Label class="sectionDesc subSection">The maximum number on each white ball</Label> 
+            
+               <View class="sectionRow">
+                    <Label id="white_ball_max" class="sliderLabel subSection"></Label>
+                    <Slider id="slider_white_max" min="19" max="99" onChange="updateWhiteMax" class="slider"/>
+                </View>
+    		
+    <View height="1" backgroundColor="#cacbca" />
+    		
+    		<Label class="section">Add a PowerBall</Label>
+               <Label class="sectionDesc">A PowerBall is pulled from a different set of balls</Label> 
+               <View class="sectionRow">
+                     <Label id="togglePowerBall_label" class="sliderLabel">Enable PowerBall</Label>
+                     <Switch id="togglePowerBall" value="false" onChange="outputState"/>           
+               </View>
+               
+              
+                <!-- hidden row enabled by toggle
+                
+                -->
+                  <Label id="sectionHide" class="section subSection smallSection">Highest PowerBall</Label>
+                    <Label id="sectionDescHide" class="sectionDesc subSection">The maximum number on each PowerBall</Label>
+                    <View id="sectionRowHide" class="sectionRow">
+                        <Label id="power_ball_max" class="sliderLabel subSection"></Label>
+                        <Slider id="slider_power_max" min="1" max="99" onChange="updatePowerMax" class="slider"/>
+                    </View>
+         
+                
+                 <View class="sectionRow" />
+             
+            
+                 
+  
+    		      
+        </ScrollView>
+         
+    		 <View id="nav" class="nav">
+    			<!-- to logo -->
+    			<Label id="cancel" class="cancel">cancel</Label>
+    			<View id="hamburgerTap"></View>
+    			<Label id="navTitle" class="navTitle">Custom Lottery</Label>
+    			<Label id="done" class="done">done</Label>
+    			<View id="friesTap"></View>
+    		</View>
+    	
+		 <View id="footer">
+            <!-- to logo -->
+            <Label id="refresh"></Label>
+            <Label id="footerTitle">Search your local lottery ></Label>
+            <!-- v2
+            <Label id="print"></Label>
+            <Label id="share"></Label>
+            -->
+            
+            <!-- border -->
+            <View id="sep" height="1" backgroundColor="#cacbca" />              
+        </View>
+        
+   
+	</Window>
+</Alloy>

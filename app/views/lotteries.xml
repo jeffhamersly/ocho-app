@@ -1,0 +1,37 @@
+<Alloy>
+	<Window id="settings" class="container">
+		
+		  <View id="heading">
+		        <Label class="location"></Label>
+                <Label class="section">Choose Your Lottery</Label>
+                <Label class="sectionDesc">Pick balls based on your local lottery's rules.</Label> 
+                
+          </View>
+          <View id="tableStyle">       
+		  <Label id="back" class="back"></Label>
+		  <TableView id="table" class="table" />
+        </View>
+    	  <View id="nav" class="nav">
+    			<!-- to logo -->
+                <Label id="cancel" class="cancel">cancel</Label>
+                 <View id="hamburgerTap"></View>
+                <Label id="navTitle" class="navTitle">Choose Lottery</Label>
+                <Label id="done" class="done">done</Label>
+                 <View id="friesTap"></View>
+    	  </View>
+    	
+		 <View id="footer"> 
+            <!-- to logo -->
+           <Label id="refresh_configure"></Label>
+            <Label id="footerTitle">Create a custom lottery ></Label>
+            <!-- v2
+            <Label id="print"></Label> 
+            <Label id="share"></Label>
+            -->
+            
+            <!-- border -->
+            <View id="sep" height="1" backgroundColor="#cacbca" />              
+        </View>
+	
+	</Window>
+</Alloy>

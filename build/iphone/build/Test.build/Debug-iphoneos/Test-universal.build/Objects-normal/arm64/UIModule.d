@@ -27,6 +27,7 @@ dependencies: \
   /Users/jeff/Appcelerator_Studio_Workspace/test/build/iphone/Classes/TiBuffer.h \
   /Users/jeff/Appcelerator_Studio_Workspace/test/build/iphone/Classes/TiBlob.h \
   /Users/jeff/Appcelerator_Studio_Workspace/test/build/iphone/Classes/TiUIAlertDialogProxy.h \
+  /Users/jeff/Appcelerator_Studio_Workspace/test/build/iphone/Classes/TiUIiPhoneProxy.h \
   /Users/jeff/Appcelerator_Studio_Workspace/test/build/iphone/Classes/TiApp.h \
   /Users/jeff/Appcelerator_Studio_Workspace/test/build/iphone/Classes/TiHost.h \
   /Users/jeff/Appcelerator_Studio_Workspace/test/build/iphone/Classes/Bridge.h \

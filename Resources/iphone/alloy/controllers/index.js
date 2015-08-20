@@ -8,116 +8,98 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
-    function randomInt(max) {
-        return Math.floor(Math.random() * max) + 1;
+    function randomXToY(minVal, maxVal) {
+        var randVal = minVal + Math.random() * (maxVal - minVal);
+        return Math.round(randVal);
     }
-    function getPicks(balls, rows, power) {
+    function getPicks(balls, max, rows, power, maxPb) {
         tableData = [];
-        picks = [];
-        for (var i = 1; rows >= i; i++) {
-            var background = i % 2 ? "#f4f6f5" : "#ffffff";
-            var row = Ti.UI.createTableViewRow({
-                layout: "horizontal",
-                backgroundColor: background
-            });
-            $.addClass(row, "lottoRow");
-            var rowCount = Ti.UI.createLabel({
-                text: i
-            });
-            $.addClass(rowCount, "countRow");
-            row.add(rowCount);
-            for (var j = 1; balls >= j; j++) {
-                if (j != balls) {
-                    var lottoPick = randomInt(ballMax);
-                    for (var s = 0; j >= s; s++) {
-                        picNumber = picks[s];
-                        if (picNumber == lottoPick) {
-                            var lottoPick = randomInt(powerBallMax);
-                            s = 0;
-                            Ti.API.info("1");
-                            if (picNumber == lottoPick) {
-                                var lottoPick = randomInt(powerBallMax);
-                                s = 0;
-                                Ti.API.info("2");
-                                if (picNumber == lottoPick) {
-                                    var lottoPick = randomInt(powerBallMax);
-                                    s = 0;
-                                    Ti.API.info("3");
-                                    if (picNumber == lottoPick) {
-                                        var lottoPick = randomInt(powerBallMax);
-                                        s = 0;
-                                        Ti.API.info("4");
-                                        if (picNumber == lottoPick) {
-                                            var lottoPick = randomInt(powerBallMax);
-                                            s = 0;
-                                            Ti.API.info("5");
-                                            if (picNumber == lottoPick) {
-                                                var lottoPick = randomInt(powerBallMax);
-                                                s = 0;
-                                                Ti.API.info("6");
-                                                if (picNumber == lottoPick) {
-                                                    var lottoPick = randomInt(powerBallMax);
-                                                    s = 0;
-                                                    Ti.API.info("7");
-                                                    if (picNumber == lottoPick) {
-                                                        var lottoPick = randomInt(powerBallMax);
-                                                        s = 0;
-                                                        Ti.API.info("8");
-                                                        if (picNumber == lottoPick) {
-                                                            var lottoPick = randomInt(powerBallMax);
-                                                            s = 0;
-                                                            Ti.API.info("9");
-                                                            if (picNumber == lottoPick) {
-                                                                var lottoPick = randomInt(powerBallMax);
-                                                                s = 0;
-                                                                Ti.API.info("10");
-                                                                if (picNumber == lottoPick) {
-                                                                    var lottoPick = randomInt(powerBallMax);
-                                                                    s = 0;
-                                                                    Ti.API.info("11");
-                                                                    if (picNumber == lottoPick) {
-                                                                        var lottoPick = randomInt(powerBallMax);
-                                                                        s = 0;
-                                                                        Ti.API.info("12");
-                                                                        Ti.API.info("wow... a duplicate. I guess this was a piss poor solution afterall. Though at 11:49pm it seemed aight.");
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            picks[s] = lottoPick;
-                            var labelBall = Ti.UI.createLabel({
-                                text: lottoPick
-                            });
-                            $.addClass(labelBall, "lottoBall");
-                        }
-                    }
-                    1 == j && $.addClass(labelBall, "firstBall");
-                } else {
-                    var lottoPick = randomInt(powerBallMax);
-                    var labelBall = Ti.UI.createLabel({
-                        text: lottoPick
+        var url = "https://app.lotteryegg.com?numBalls=" + balls + "&numRows=" + rows + "&powerBall=" + Alloy.Globals.powerBall + "&maxRange=" + max + "&maxPbRange=" + maxPb;
+        var xhr = Ti.Network.createHTTPClient({
+            onload: function() {
+                json = JSON.parse(this.responseText);
+                Alloy.Globals.balls = [];
+                var length = 0;
+                for (var key in json) if (json.hasOwnProperty(key)) {
+                    length++;
+                    var background = length % 2 ? "#f4f6f5" : "#ffffff";
+                    var row = Ti.UI.createTableViewRow({
+                        backgroundColor: background,
+                        width: Ti.UI.FILL
                     });
-                    true === power && $.addClass(labelBall, "lottoBallBlue");
+                    var wrapper = Ti.UI.createView({
+                        layout: "horizontal",
+                        left: "10%",
+                        width: "90%"
+                    });
+                    var rowCount = Ti.UI.createLabel({
+                        text: length
+                    });
+                    $.addClass(rowCount, "countRow");
+                    row.add(rowCount);
+                    for (var j = 0; balls > j; j++) {
+                        var labelBall = Ti.UI.createLabel({
+                            text: json[key].numbers[j],
+                            top: -100,
+                            zIndex: 1e3
+                        });
+                        Alloy.Globals.balls.push(labelBall);
+                        0 == j && $.addClass(labelBall, "firstBall");
+                        if (4 > balls) {
+                            $.addClass(labelBall, "lottoBallLarge");
+                            $.addClass(row, "lottoRowLarge");
+                        } else if (balls > 7 & 10 >= balls) {
+                            $.addClass(labelBall, "lottoBall");
+                            $.addClass(row, "lottoRowTwo");
+                        } else if (balls > 10 & 15 >= balls) {
+                            $.addClass(labelBall, "lottoBall");
+                            $.addClass(row, "lottoRowTwo");
+                        } else if (balls > 15) {
+                            $.addClass(labelBall, "lottoBall");
+                            $.addClass(row, "lottoRowSuper");
+                        } else {
+                            $.addClass(labelBall, "lottoBall");
+                            $.addClass(row, "lottoRow");
+                        }
+                        wrapper.add(labelBall);
+                    }
+                    if (json[key].powerball) {
+                        var labelBall = Ti.UI.createLabel({
+                            text: json[key].powerball,
+                            top: -100,
+                            zIndex: 1e3
+                        });
+                        Alloy.Globals.balls.push(labelBall);
+                        $.addClass(labelBall, "lottoBallBlue");
+                        4 > balls ? $.addClass(labelBall, "lottoBallBlueLarge") : $.addClass(labelBall, "lottoBallBlue");
+                        wrapper.add(labelBall);
+                    }
+                    row.add(wrapper);
+                    tableData.push(row);
                 }
-                row.add(labelBall);
-                var dur = randomInt(300);
-                labelBall.animate({
-                    top: 10,
-                    duration: dur
-                });
-            }
-            tableData.push(row);
+                upgradeAd();
+                $.table.setData(tableData);
+                animateBalls();
+                Alloy.Globals.Animated = false;
+            },
+            onerror: function(e) {
+                Ti.API.info(e.error);
+                alert("Please Try Again");
+            },
+            timeout: 5e3
+        });
+        xhr.open("GET", url);
+        xhr.send();
+    }
+    function animateBalls() {
+        var allBalls = Alloy.Globals.balls.length;
+        for (var p = 0; allBalls > p; p++) {
+            Alloy.Globals.balls[p].animate({
+                top: 10,
+                duration: randomXToY(300, 600)
+            });
+            Ti.API.info("animated ball number" + p);
         }
-        upgradeAd();
-        $.table.setData(tableData);
     }
     function upgradeAd() {
         var row = Ti.UI.createTableViewRow({
@@ -125,18 +107,18 @@ function Controller() {
         });
         var lockIcon = Ti.UI.createLabel({
             color: "#949fab",
-            text: "",
+            text: "",
             top: "10%",
             font: {
                 fontFamily: "icomoon",
-                fontSize: 35,
+                fontSize: 40,
                 textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
             }
         });
         var upgradeText = Ti.UI.createLabel({
             top: "30%",
             color: "#949fab",
-            text: "Copy, Save and Share Picks",
+            text: "Questions or Suggestions",
             width: "100%",
             font: {
                 fontFamily: "Lucida-neueu",
@@ -146,11 +128,18 @@ function Controller() {
         });
         var upgradeBtn = Ti.UI.createButton({
             top: "42%",
-            backgroundColor: "#0086c8",
+            backgroundColor: "#5f9c73",
             color: "#ffffff",
             borderRadius: 10,
-            title: "Upgrade Now - $4.95/mo",
-            width: "85%"
+            title: "Leave Feedback",
+            width: "75%"
+        });
+        upgradeBtn.addEventListener("singletap", function() {
+            var emailDialog = Ti.UI.createEmailDialog();
+            emailDialog.subject = "Feedback - LotteryEgg";
+            emailDialog.toRecipients = [ "jeff.hamersly@gmail.com" ];
+            emailDialog.setMessageBody("Howdy!\n       \nI'm always working on improving LotteryEgg, let me know what what you would like changed!\n\n-Jeff");
+            emailDialog.open();
         });
         row.add(upgradeText);
         row.add(lockIcon);
@@ -187,59 +176,28 @@ function Controller() {
         id: "table"
     });
     $.__views.window.add($.__views.table);
-    $.__views.nav = Ti.UI.createView({
-        backgroundColor: "#7d8ea7",
-        height: "13%",
-        width: "100%",
-        top: 0,
-        id: "nav"
-    });
-    $.__views.window.add($.__views.nav);
-    $.__views.navTitle = Ti.UI.createLabel({
-        color: "#fff",
-        font: {
-            fontSize: 18,
-            fontFamily: "Lucida-neueu"
-        },
-        top: "50%",
-        text: "Astrology",
-        id: "navTitle"
-    });
-    $.__views.nav.add($.__views.navTitle);
-    $.__views.fries = Ti.UI.createLabel({
-        color: "#ffffff",
-        font: {
-            fontSize: 20,
-            fontFamily: "icomoon"
-        },
-        right: 20,
-        top: "50%",
-        text: "",
-        id: "fries"
-    });
-    $.__views.nav.add($.__views.fries);
     $.__views.footer = Ti.UI.createView({
         top: "13%",
-        backgroundColor: "#fcfdfc",
+        backgroundColor: "#dfecd8",
         width: "100%",
         height: "51",
         id: "footer"
     });
     $.__views.window.add($.__views.footer);
     $.__views.refresh = Ti.UI.createLabel({
-        color: "#949fab",
+        color: "#5d6a63",
         font: {
             fontSize: 20,
             fontFamily: "icomoon"
         },
         left: "8%",
         top: "30%",
-        text: "",
+        text: "",
         id: "refresh"
     });
     $.__views.footer.add($.__views.refresh);
     $.__views.footerTitle = Ti.UI.createLabel({
-        color: "#949fab",
+        color: "#5d6a63",
         font: {
             fontSize: 12,
             fontFamily: "Lucida-neueu"
@@ -258,64 +216,94 @@ function Controller() {
         backgroundColor: "#cacbca"
     });
     $.__views.footer.add($.__views.sep);
-    $.__views.filter = Ti.UI.createWindow({
-        backgroundColor: "#f4f6f5",
-        id: "filter"
-    });
-    $.__views.filter && $.addTopLevelView($.__views.filter);
-    $.__views.filterNav = Ti.UI.createView({
-        backgroundColor: "#7d8ea7",
+    $.__views.nav = Ti.UI.createView({
+        backgroundColor: "#5d9d74",
         height: "13%",
         width: "100%",
         top: 0,
-        id: "filterNav"
+        id: "nav"
     });
-    $.__views.filter.add($.__views.filterNav);
-    $.__views.filterNavTitle = Ti.UI.createLabel({
-        color: "#fff",
+    $.__views.window.add($.__views.nav);
+    $.__views.hamburger = Ti.UI.createLabel({
+        color: "#e0ebd8",
+        font: {
+            fontSize: 30,
+            fontFamily: "icomoon"
+        },
+        left: 20,
+        top: "45%",
+        text: "",
+        id: "hamburger"
+    });
+    $.__views.nav.add($.__views.hamburger);
+    $.__views.hamburgerTap = Ti.UI.createView({
+        left: 0,
+        top: "45%",
+        width: "33%",
+        id: "hamburgerTap"
+    });
+    $.__views.nav.add($.__views.hamburgerTap);
+    $.__views.navTitle = Ti.UI.createLabel({
+        color: "#e0ebd8",
         font: {
             fontSize: 18,
             fontFamily: "Lucida-neueu"
         },
         top: "50%",
-        text: "Tweak Lottery Filter",
-        id: "filterNavTitle"
+        text: "LotteryEgg",
+        id: "navTitle"
     });
-    $.__views.filterNav.add($.__views.filterNavTitle);
-    $.__views.cancelFries = Ti.UI.createLabel({
-        color: "#ffffff",
+    $.__views.nav.add($.__views.navTitle);
+    $.__views.fries = Ti.UI.createLabel({
+        color: "#e0ebd8",
         font: {
             fontSize: 20,
             fontFamily: "icomoon"
         },
         right: 20,
         top: "50%",
-        text: "",
-        id: "cancelFries"
+        text: "",
+        id: "fries"
     });
-    $.__views.filterNav.add($.__views.cancelFries);
-    $.__views.filterTable = Ti.UI.createTableView({
-        id: "filterTable"
+    $.__views.nav.add($.__views.fries);
+    $.__views.friesTap = Ti.UI.createView({
+        right: 0,
+        top: "45%",
+        width: "33%",
+        id: "friesTap"
     });
-    $.__views.filter.add($.__views.filterTable);
+    $.__views.nav.add($.__views.friesTap);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    $.window.open();
     var tableData = [];
-    var picks = [];
-    var powerBallMax = 15;
-    var ballMax = 45;
-    $.footer.addEventListener("click", function() {
-        $.table.setData([]);
-        getPicks(7, 5, true);
+    require("Billing");
+    Alloy.Globals.Animated = false;
+    $.table.addEventListener("scroll", function(e) {
+        var roundedY = Math.round(e.contentOffset.y);
+        var allBalls = Alloy.Globals.balls.length;
+        if (roundedY > 50 & false == Alloy.Globals.Animated) {
+            for (var p = 0; allBalls > p; p++) {
+                Alloy.Globals.balls[p].setTop(10);
+                Ti.API.info("animated ball number" + p);
+            }
+            Alloy.Globals.Animated = true;
+        }
     });
-    $.nav.addEventListener("click", function() {
-        $.filter.open();
+    $.footer.addEventListener("singletap", function() {
+        $.table.scrollToTop();
+        getPicks(Alloy.Globals.numWhiteBalls, Alloy.Globals.numWhiteMax, Alloy.Globals.numRows, Alloy.Globals.powerBall, Alloy.Globals.numPowerMax);
     });
-    $.filterNav.addEventListener("click", function() {
-        $.filter.close();
+    $.friesTap.addEventListener("singletap", function() {
+        Alloy.createController("settings").getView().open();
     });
-    getPicks(7, 5, true);
+    $.hamburgerTap.addEventListener("singletap", function() {
+        Alloy.createController("lotteries").getView().open();
+    });
+    $.window.getPicks = getPicks;
+    Alloy.Globals.numbers = $.window;
+    getPicks(Alloy.Globals.numWhiteBalls, Alloy.Globals.numWhiteMax, Alloy.Globals.numRows, Alloy.Globals.powerBall, Alloy.Globals.numPowerMax);
+    Alloy.Globals.navTitle = $.navTitle;
+    $.window.open();
     _.extend($, exports);
 }
 

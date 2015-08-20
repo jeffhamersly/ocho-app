@@ -3,19 +3,11 @@
 		
 		
 		
-		 <TableView id="table" />
+		 <TableView id="table" class="table"/>
 		
-		 
-		 <View id="nav" class="nav">
+		  <View id="footer">
 			<!-- to logo -->
-			<!-- v2<Label id="hamburger"></Label> -->
-			<Label id="navTitle" class="navTitle">Astrology</Label>
-			<Label id="fries" class="fries"></Label>
-		</View>
-			
-		 <View id="footer">
-			<!-- to logo -->
-			<Label id="refresh"></Label>
+			<Label id="refresh"></Label>
 			<Label id="footerTitle">Tap to get more lucky numbers</Label>
 			<!-- v2
 			<Label id="print"></Label>
@@ -26,16 +18,19 @@
 			<View id="sep" height="1" backgroundColor="#cacbca" />			 	
 		</View>
 		
+		 <View id="nav" class="nav">
+			<!-- to logo -->
+			<Label id="hamburger" class="hamburger"></Label>
+			 <View id="hamburgerTap"></View>
+			<Label id="navTitle" class="navTitle">LotteryEgg</Label>
+			<Label id="fries" class="fries"></Label>
+			 <View id="friesTap"></View>
+		</View>
+			
+
+		
 		
 	
 	</Window>
-	<Window id="filter" class="container">
-		<View id="filterNav" class="nav">
-			
-			<Label id="filterNavTitle" class="navTitle">Tweak Lottery Filter</Label>
-			<Label id="cancelFries" class="fries"></Label>
-		</View>
-		<TableView id="filterTable" />
-		
-	</Window>
+	
 </Alloy>
